@@ -26,4 +26,5 @@ This project currently doesn't require setup.
 No tests, yet.
 
 ## UML
-![Lab 26 UML](./images/lab26uml.png "")
+
+![Lab 26 UML](./images/lab26uml.png "Lab 26 UML")
