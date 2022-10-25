@@ -7,11 +7,21 @@ form {
   display: inline-block;
   margin: auto;
   width: 200px;
+  
+  
 
   label {
     display: flex;
     margin: 1rem 0;
-
+    /* can't figure out how to style button :(
+    .button {
+    backgroud: ffafcc;
+    text-align: center;
+    &:hover, &.active {
+          background: #ffc8dd;
+    }
+  }*/
+  
     &.methods {
       span {
         cursor: pointer;
