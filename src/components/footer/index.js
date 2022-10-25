@@ -1,10 +1,7 @@
-import './footer.scss'
+import "./footer.scss";
 
-function Footer()
-{
-  return (
-    <footer>&copy; 2018</footer>
-  );
+function Footer() {
+  return <footer>&copy; Rhea Mimi Carillo 2022</footer>;
 }
 
 export default Footer;
