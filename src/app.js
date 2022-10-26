@@ -18,10 +18,6 @@ import Results from './components/results';
 
 const App = () =>
 {
-  // state => the current value of our component State
-  // setState => function that can update current state to a new state.
-
-
   let [ data, setData ] = useState(null);
 
   let [ requestParams, setRequestParams ] = useState({});

@@ -48,7 +48,12 @@ function Form(props)
     let selectedMethod = e.target.id.toUpperCase();
     console.log('selected method: ', selectedMethod);
     await setMethod(selectedMethod);
+  }
 
+  function handleJsonInput(e)
+  {
+    e.preventDefault();
+    console.log(e);
   }
 
   return (
@@ -74,7 +79,7 @@ function Form(props)
         <label className="jsonInput">
           <textarea
             name='jsonInput'
-            onChange={ (e) = setJsonInput(e.target.value) }>
+            onInput={ handleJsonInput(e) }>
           </textarea>
         </label>
         :
