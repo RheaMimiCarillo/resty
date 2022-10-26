@@ -37,7 +37,7 @@ const App = () =>
       ]
     };
     // using the spread operator to maintain any previous state values.
-    setData({ data, ...data });
+    setData({ data });
     setRequestParams({ requestParams, ...requestParams })
   };
 
@@ -47,55 +47,12 @@ const App = () =>
       <div>Request Method: { requestParams.method }</div>
       <div>URL: { requestParams.url }</div>
       <Form handleApiCall={ callApi } />
-      <Results data={ data } />
+      <Results
+        data={ data } 
+        displayValue={"Loading..."}/>
       <Footer />
     </React.Fragment>
   );
 };
-
-
-/*
-class App extends React.Component
-{
-  constructor(props)
-  {
-    super(props);
-    this.state = {
-      data: null,
-      requestParams: {},
-    };
-  }
-
-  callApi = (requestParams) =>
-  {
-    // mock output
-    const data = {
-      count: 2,
-      results: [
-        { name: 'fake thing 1', url: 'http://fakethings.com/1' },
-        { name: 'fake thing 2', url: 'http://fakethings.com/2' },
-      ],
-    };
-    this.setState({
-      data,
-      requestParams
-    });
-  }
-
-  render()
-  {
-    return (
-      <React.Fragment>
-        <Header />
-        <div>Request Method: { this.state.requestParams.method }</div>
-        <div>URL: { this.state.requestParams.url }</div>
-        <Form handleApiCall={ this.callApi } />
-        <Results data={ this.state.data } />
-        <Footer />
-      </React.Fragment>
-    );
-  }
-}
-*/
 
 export default App;
