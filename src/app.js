@@ -9,11 +9,11 @@ import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
 /* TODO: convert App to functional component
-  1. import usestate
-  2. make states for each thing that needs it
-  3. make handlers to catch input/change
+  x 1. import usestate
+  x 2. make states for each thing that needs it
+  x 3. make handlers to catch input/change
   4. make handlers to handle submit events
-  5. style page to look like a reputable search engine
+  bonus: style page to look like a reputable search engine
 */
 
 const App = () =>
@@ -44,8 +44,10 @@ const App = () =>
       <div>URL: { requestParams.url }</div>
       <Form handleApiCall={ callApi } />
       <Results
-        data={ data } 
-        displayValue={"Loading..."}/>
+        data={ data }
+        displayValue={ "Loading..." }
+      />
+
       <Footer />
     </React.Fragment>
   );

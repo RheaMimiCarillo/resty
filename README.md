@@ -27,4 +27,4 @@ No tests, yet.
 
 ## UML
 
-![Lab 26 UML](./images/lab26uml.png "Lab 26 UML")
+![Lab 26 & 27 UML](./images/lab26uml.png "Lab 26 & 27 UML")
