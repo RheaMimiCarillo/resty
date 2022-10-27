@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react";
 
 import './app.scss';
 
@@ -8,47 +8,49 @@ import Header from './components/header';
 import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
+/* TODO: convert App to functional component
+  x 1. import usestate
+  x 2. make states for each thing that needs it
+  x 3. make handlers to catch input/change
+  4. make handlers to handle submit events
+  bonus: style page to look like a reputable search engine
+*/
 
-class App extends React.Component
+const App = () =>
 {
-  constructor(props)
-  {
-    super(props);
-    this.state = {
-      data: null,
-      requestParams: {},
-    };
-  }
+  let [ data, setData ] = useState(null);
 
-  callApi = (requestParams) =>
+  let [ requestParams, setRequestParams ] = useState({});
+
+  const callApi = (requestParams) =>
   {
     // mock output
     const data = {
       count: 2,
       results: [
-        { name: 'fake thing 1', url: 'http://fakethings.com/1' },
-        { name: 'fake thing 2', url: 'http://fakethings.com/2' },
-      ],
+        { name: "fake thing 1", url: "http://fakethings.com/1" },
+        { name: "fake thing 2", url: "http://fakethings.com/2" }
+      ]
     };
-    this.setState({
-      data,
-      requestParams
-    });
-  }
+    // using the spread operator to maintain any previous state values.
+    setData({ data });
+    setRequestParams({ requestParams, ...requestParams })
+  };
 
-  render()
-  {
-    return (
-      <React.Fragment>
-        <Header />
-        <div>Request Method: { this.state.requestParams.method }</div>
-        <div>URL: { this.state.requestParams.url }</div>
-        <Form handleApiCall={ this.callApi } />
-        <Results data={ this.state.data } />
-        <Footer />
-      </React.Fragment>
-    );
-  }
-}
+  return (
+    <React.Fragment>
+      <Header />
+      <div>Request Method: { requestParams.method }</div>
+      <div>URL: { requestParams.url }</div>
+      <Form handleApiCall={ callApi } />
+      <Results
+        data={ data }
+        displayValue={ "Loading..." }
+      />
+
+      <Footer />
+    </React.Fragment>
+  );
+};
 
 export default App;
