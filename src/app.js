@@ -31,11 +31,12 @@ const App = () =>
   useEffect(() =>
   {
     console.log('requestParams changed: ', requestParams);
-
+    callApi();
   }), [ requestParams ];
 
   const handleRequestParams = (formData) =>
   {
+    // spread operator to trigger re-render with new object
     setRequestParams({ requestParams, ...formData })
   }
 
@@ -49,9 +50,12 @@ const App = () =>
         { name: "fake thing 2", url: "http://fakethings.com/2" }
       ]
     };
+    // let results = fetch('')
+    //   .then(response => response.json())
+    //   .then(json => console.log(json))
     // using the spread operator to maintain any previous state values.
-    setData({ data });
-    console.log('called api with request params: ', requestParams);
+    //setData({ data });
+    //console.log('called api with request params: ', requestParams);
   };
 
   return (
@@ -60,6 +64,7 @@ const App = () =>
 
       <div>Request Method: { requestParams.method }</div>
       <div>URL: { requestParams.url }</div>
+      <div>Body: { requestParams.body }</div>
 
       <Form
         handleRequestParams={ handleRequestParams }
