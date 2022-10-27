@@ -27,12 +27,15 @@ const App = () =>
 {
   let [ data, setData ] = useState(null);
 
-  let [ requestParams, setRequestParams ] = useState({});
+  let [ requestParams, setRequestParams ] = useState(null);
 
   useEffect(() =>
   {
     console.log('requestParams changed: ', requestParams);
-    callApi();
+
+    Boolean(requestParams) && callApi(requestParams.url, requestParams.method, requestParams.body);
+
+    //callApi();
     // return () =>
     // {
     //   console.log('return from requestParams change');
@@ -43,34 +46,41 @@ const App = () =>
   {
     // spread operator to trigger re-render with new object
     setRequestParams({ requestParams, ...formData })
-    //callApi()
   }
 
-  const callApi = () =>
+  async function callApi(url = '', method = 'GET', body = '')
   {
-    // mock output
-    const data = {
-      count: 2,
-      results: [
-        { name: "fake thing 1", url: "http://fakethings.com/1" },
-        { name: "fake thing 2", url: "http://fakethings.com/2" }
-      ]
-    };
-    // let results = fetch(`${requestParams.url}`)
-    //   .then(response => response.json())
-    //   .then(json => console.log(json))
-    // using the spread operator to maintain any previous state values.
-    setData({ data });
-    console.log('called api with request params: ', requestParams);
-  };
+    // Default options are marked with *
+    // test API url: https://pokeapi.co/api/v2/pokemon?limit=151
+    const response = await fetch(url, {
+      method: method, // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      //body: JSON.stringify(data) // body data type must match "Content-Type" header
+    })
+      .then(response => response.json())
+      .then(json => {console.log('results of api call ', json);setData(json)});
+ 
+    return response; // parses JSON response into native JavaScript objects
+  }
 
   return (
     <React.Fragment>
       <Header />
-
-      <div>Request Method: { requestParams.method }</div>
-      <div>URL: { requestParams.url }</div>
-      <div>Body: { requestParams.body }</div>
+      <h3>Request Parameters:</h3>
+      { requestParams ?
+        <>
+          <div>Request Method: { requestParams.method }</div>
+          <div>URL: { requestParams.url }</div>
+          { requestParams.body ?
+            <div>Body: { requestParams.body }</div>:
+            undefined
+          }
+          
+        </> :
+        undefined
+      }
 
       <Form
         handleRequestParams={ handleRequestParams }
