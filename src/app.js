@@ -32,17 +32,18 @@ const App = () =>
   useEffect(() =>
   {
     console.log('requestParams changed: ', requestParams);
-    return ()=>
-    {
-      console.log('return from requestParams change');
-    }
-  }), [ requestParams ];
+    callApi();
+    // return () =>
+    // {
+    //   console.log('return from requestParams change');
+    // }
+  }, [ requestParams ]);
 
   const handleRequestParams = (formData) =>
   {
     // spread operator to trigger re-render with new object
     setRequestParams({ requestParams, ...formData })
-    callApi()
+    //callApi()
   }
 
   const callApi = () =>
