@@ -3,19 +3,8 @@ import './form.scss';
 
 /* TODO
 
-  X Expects a function to be sent to it as a prop
-  
-  X Renders a URL entry form
-
-  X A selection of REST methods to choose from (“get” should be the default)
-  O  The active selection should be displayed/styled differently than the others
-
-  X Renders a Textarea to allow the user to type in a JSON object for a POST or PUT request
-
-  X On submit
-    X Send the Form entries back to the <App> using the method sent down in props
-    Form will run the API request
-    X Toggle the “loading” status before and after the request
+  X<Form /> component 
+    X onSubmit() sends the user’s entries to the <App /> via method sent in through props
 
 */
 

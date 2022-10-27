@@ -1,20 +1,26 @@
 import React, { useState } from "react";
-
 import './app.scss';
-
-// Let's talk about using index.js and some other name in the component folder
-// There's pros and cons for each way of doing this ...
 import Header from './components/header';
 import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
-/* TODO: convert App to functional component
-  x 1. import usestate
-  x 2. make states for each thing that needs it
-  x 3. make handlers to catch input/change
-  4. make handlers to handle submit events
-  bonus: style page to look like a reputable search engine
+
+
+/* TODO
+
+  X <App /> does a check on the request data from the form and 
+    X updates the request variable in state with the 
+      X url, 
+      X method, and 
+      X potentially the body
+
+  X <App /> has an effect hook 
+    X that’s looking for changes to the request variable in state, and in response, 
+      X runs the API request with the new request options from state
+  
+  X <App /> updates state with the results of the API Request
 */
+
 
 const App = () =>
 {
@@ -38,7 +44,7 @@ const App = () =>
   };
 
   return (
-    <React.Fragment>
+    <div id="app">
       <Header />
       <div>Request Method: { requestParams.method }</div>
       <div>URL: { requestParams.url }</div>
@@ -49,7 +55,7 @@ const App = () =>
       />
 
       <Footer />
-    </React.Fragment>
+    </div>
   );
 };
 

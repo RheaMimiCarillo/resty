@@ -1,6 +1,16 @@
 import './results.scss';
 //import List from './list/List';
 import { useEffect, useState } from 'react';
+
+/* TODO
+
+  X <Results /> sees the new API data as a prop and 
+    X renders the JSON
+
+    Note: 
+    X update your <Results /> component to use a 3rd party component to “pretty print” the JSON in a color-coded, user-friendly format
+*/
+
 function Results(props)
 {
   //let [ results, setResults ] = useState([]);
