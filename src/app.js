@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './app.scss';
 import Header from './components/header';
 import Footer from './components/footer';
@@ -8,17 +8,17 @@ import Results from './components/results';
 
 /* TODO
 
-  X <App /> does a check on the request data from the form and 
-    X updates the request variable in state with the 
-      X url, 
-      X method, and 
-      X potentially the body
+  O <App /> does a check on the request data from the form and 
+    O updates the request variable in state with the 
+      O url, 
+      O method, and 
+      O potentially the body
 
-  X <App /> has an effect hook 
-    X that’s looking for changes to the request variable in state, and in response, 
+  O <App /> has an effect hook 
+    O that’s looking for changes to the request variable in state, and in response, 
       X runs the API request with the new request options from state
   
-  X <App /> updates state with the results of the API Request
+  O <App /> updates state with the results of the API Request
 */
 
 
@@ -28,7 +28,18 @@ const App = () =>
 
   let [ requestParams, setRequestParams ] = useState({});
 
-  const callApi = (requestParams) =>
+  useEffect(() =>
+  {
+    console.log('requestParams changed: ', requestParams);
+
+  }), [ requestParams ];
+
+  const handleRequestParams = (formData) =>
+  {
+    setRequestParams({ requestParams, ...formData })
+  }
+
+  const callApi = () =>
   {
     // mock output
     const data = {
@@ -40,22 +51,27 @@ const App = () =>
     };
     // using the spread operator to maintain any previous state values.
     setData({ data });
-    setRequestParams({ requestParams, ...requestParams })
+    console.log('called api with request params: ', requestParams);
   };
 
   return (
-    <div id="app">
+    <React.Fragment>
       <Header />
+
       <div>Request Method: { requestParams.method }</div>
       <div>URL: { requestParams.url }</div>
-      <Form handleApiCall={ callApi } />
+
+      <Form
+        handleRequestParams={ handleRequestParams }
+      />
+
       <Results
         data={ data }
         displayValue={ "Loading..." }
       />
 
       <Footer />
-    </div>
+    </React.Fragment>
   );
 };
 

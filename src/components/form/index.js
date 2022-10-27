@@ -3,29 +3,30 @@ import './form.scss';
 
 /* TODO
 
-  X<Form /> component 
-    X onSubmit() sends the user’s entries to the <App /> via method sent in through props
+  O <Form /> component 
+    O onSubmit() sends the user’s entries to the <App /> via method sent in through props
 
 */
 
 function Form(props)
 {
-  let [ input, setInput ] = useState('');
+  let [ url, setUrl ] = useState('');
   // default method is GET
   let [ method, setMethod ] = useState('GET');
 
   // json input data for PUT and POST
-  let [ jsonInput, setJsonInput ] = useState('');
+  let [ body, setBody ] = useState('');
 
   function handleSubmit(e)
   {
     e.preventDefault();
     const formData = {
       method: method,
-      url: input,
-      jsonInput: jsonInput, 
+      url: url,
+      body: body, 
     };
-    props.handleApiCall(formData);
+    console.log('formData: ', formData);
+    props.handleRequestParams(formData);
   }
 
   async function handleMethod(e)
@@ -45,7 +46,7 @@ function Form(props)
         <input
           name="url"
           as="text"
-          onChange={ (e) => setInput(e.target.value) }
+          onChange={ (e) => setUrl(e.target.value) }
           placeholder="API URL"
         />
         <button type="submit" className="button">GO!</button>
@@ -63,7 +64,7 @@ function Form(props)
           <textarea
             name="jsonInput"
             placeholder="JSON data"
-            onChange={ (e) => setJsonInput(e.target.value) }>
+            onChange={ (e) => setBody(e.target.value) }>
           </textarea>
         </label>
         :
