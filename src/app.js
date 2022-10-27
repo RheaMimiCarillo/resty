@@ -4,6 +4,7 @@ import Header from './components/header';
 import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
+import axios from 'axios';
 
 
 /* TODO
@@ -31,7 +32,10 @@ const App = () =>
   useEffect(() =>
   {
     console.log('requestParams changed: ', requestParams);
-    callApi();
+    return ()=>
+    {
+      console.log('return from requestParams change');
+    }
   }), [ requestParams ];
 
   const handleRequestParams = (formData) =>
@@ -50,12 +54,12 @@ const App = () =>
         { name: "fake thing 2", url: "http://fakethings.com/2" }
       ]
     };
-    // let results = fetch('')
+    // let results = fetch(`${requestParams.url}`)
     //   .then(response => response.json())
     //   .then(json => console.log(json))
     // using the spread operator to maintain any previous state values.
-    //setData({ data });
-    //console.log('called api with request params: ', requestParams);
+    setData({ data });
+    console.log('called api with request params: ', requestParams);
   };
 
   return (
