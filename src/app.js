@@ -4,7 +4,7 @@ import Header from './components/header';
 import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
-import axios from 'axios';
+//import axios from 'axios';
 
 
 /* TODO
@@ -42,6 +42,7 @@ const App = () =>
   {
     // spread operator to trigger re-render with new object
     setRequestParams({ requestParams, ...formData })
+    callApi()
   }
 
   const callApi = () =>
