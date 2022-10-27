@@ -3,40 +3,30 @@ import './form.scss';
 
 /* TODO
 
-  X Expects a function to be sent to it as a prop
-  
-  X Renders a URL entry form
-
-  X A selection of REST methods to choose from (“get” should be the default)
-  O  The active selection should be displayed/styled differently than the others
-
-  X Renders a Textarea to allow the user to type in a JSON object for a POST or PUT request
-
-  X On submit
-    X Send the Form entries back to the <App> using the method sent down in props
-    Form will run the API request
-    X Toggle the “loading” status before and after the request
+  O <Form /> component 
+    O onSubmit() sends the user’s entries to the <App /> via method sent in through props
 
 */
 
 function Form(props)
 {
-  let [ input, setInput ] = useState('');
+  let [ url, setUrl ] = useState('');
   // default method is GET
   let [ method, setMethod ] = useState('GET');
 
   // json input data for PUT and POST
-  let [ jsonInput, setJsonInput ] = useState('');
+  let [ body, setBody ] = useState('');
 
   function handleSubmit(e)
   {
     e.preventDefault();
     const formData = {
       method: method,
-      url: input,
-      jsonInput: jsonInput, 
+      url: url,
+      body: body, 
     };
-    props.handleApiCall(formData);
+    console.log('formData: ', formData);
+    props.handleRequestParams(formData);
   }
 
   async function handleMethod(e)
@@ -56,7 +46,7 @@ function Form(props)
         <input
           name="url"
           as="text"
-          onChange={ (e) => setInput(e.target.value) }
+          onChange={ (e) => setUrl(e.target.value) }
           placeholder="API URL"
         />
         <button type="submit" className="button">GO!</button>
@@ -74,7 +64,7 @@ function Form(props)
           <textarea
             name="jsonInput"
             placeholder="JSON data"
-            onChange={ (e) => setJsonInput(e.target.value) }>
+            onChange={ (e) => setBody(e.target.value) }>
           </textarea>
         </label>
         :

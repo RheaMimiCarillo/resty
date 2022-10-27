@@ -1,20 +1,27 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import './app.scss';
-
-// Let's talk about using index.js and some other name in the component folder
-// There's pros and cons for each way of doing this ...
 import Header from './components/header';
 import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
-/* TODO: convert App to functional component
-  x 1. import usestate
-  x 2. make states for each thing that needs it
-  x 3. make handlers to catch input/change
-  4. make handlers to handle submit events
-  bonus: style page to look like a reputable search engine
+//import axios from 'axios';
+
+
+/* TODO
+
+  O <App /> does a check on the request data from the form and 
+    O updates the request variable in state with the 
+      O url, 
+      O method, and 
+      O potentially the body
+
+  O <App /> has an effect hook 
+    O that’s looking for changes to the request variable in state, and in response, 
+      X runs the API request with the new request options from state
+  
+  O <App /> updates state with the results of the API Request
 */
+
 
 const App = () =>
 {
@@ -22,7 +29,23 @@ const App = () =>
 
   let [ requestParams, setRequestParams ] = useState({});
 
-  const callApi = (requestParams) =>
+  useEffect(() =>
+  {
+    console.log('requestParams changed: ', requestParams);
+    return ()=>
+    {
+      console.log('return from requestParams change');
+    }
+  }), [ requestParams ];
+
+  const handleRequestParams = (formData) =>
+  {
+    // spread operator to trigger re-render with new object
+    setRequestParams({ requestParams, ...formData })
+    callApi()
+  }
+
+  const callApi = () =>
   {
     // mock output
     const data = {
@@ -32,17 +55,26 @@ const App = () =>
         { name: "fake thing 2", url: "http://fakethings.com/2" }
       ]
     };
+    // let results = fetch(`${requestParams.url}`)
+    //   .then(response => response.json())
+    //   .then(json => console.log(json))
     // using the spread operator to maintain any previous state values.
     setData({ data });
-    setRequestParams({ requestParams, ...requestParams })
+    console.log('called api with request params: ', requestParams);
   };
 
   return (
     <React.Fragment>
       <Header />
+
       <div>Request Method: { requestParams.method }</div>
       <div>URL: { requestParams.url }</div>
-      <Form handleApiCall={ callApi } />
+      <div>Body: { requestParams.body }</div>
+
+      <Form
+        handleRequestParams={ handleRequestParams }
+      />
+
       <Results
         data={ data }
         displayValue={ "Loading..." }
