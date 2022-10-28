@@ -2,6 +2,7 @@
 import React from 'react'
 
 // import API mocking utilities from Mock Service Worker
+// https://testing-library.com/docs/react-testing-library/example-intro/
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 
