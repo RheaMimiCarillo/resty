@@ -10,7 +10,7 @@ function List(props)
         props.data.results.map((result, idx) =>
           <div key={ idx }>
             <div className="result">
-              {idx}
+              { idx }
               <SyntaxHighlighter
                 role="code"
                 language="javascript"
