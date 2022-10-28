@@ -33,6 +33,7 @@ const App = () =>
   {
     console.log('requestParams changed: ', requestParams);
 
+    // if requestParams is truthy, callApi with request params
     Boolean(requestParams) && callApi(requestParams.url, requestParams.method, requestParams.body);
 
     //callApi();
@@ -48,20 +49,36 @@ const App = () =>
     setRequestParams({ requestParams, ...formData })
   }
 
-  async function callApi(url = '', method = 'GET', body = '')
+  async function callApi(url = '', method = 'GET', body)
   {
-    // Default options are marked with *
-    // test API url: https://pokeapi.co/api/v2/pokemon?limit=151
-    const response = await fetch(url, {
+    // build request parameters with method 
+    let currentParams = {
       method: method, // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json'
       },
-      //body: JSON.stringify(data) // body data type must match "Content-Type" header
-    })
+      // body: goes here if there is a body to put here
+    }
+
+    // if the method is POST or PUT append `body` to `currentParams`
+    method === 'POST' || method === 'PUT' ? (currentParams.body = JSON.stringify(body)) : undefined;
+
+    // Default options are marked with *
+    // test API url: https://pokeapi.co/api/v2/pokemon?limit=151
+    const response = await fetch(url, currentParams)
       .then(response => response.json())
-      .then(json => {console.log('results of api call ', json);setData(json)});
- 
+      .then(json =>
+      {
+        console.log('results of api call ', json);
+        setData(json)
+      })
+      .catch(error =>
+      {
+        console.log(error.message);
+        setData(error.message);
+      }
+      );
+
     return response; // parses JSON response into native JavaScript objects
   }
 
@@ -74,10 +91,9 @@ const App = () =>
           <div>Request Method: { requestParams.method }</div>
           <div>URL: { requestParams.url }</div>
           { requestParams.body ?
-            <div>Body: { requestParams.body }</div>:
+            <div>Body: { requestParams.body }</div> :
             undefined
           }
-          
         </> :
         undefined
       }

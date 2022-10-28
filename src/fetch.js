@@ -1,3 +1,5 @@
+/* `fetch` notes */
+
 // Example implementation:
 async function callApi(url = '', data = {}, method = 'GET')
 {

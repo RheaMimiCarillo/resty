@@ -23,7 +23,7 @@ function Form(props)
     const formData = {
       method: method,
       url: url,
-      body: body, 
+      body: body,
     };
     console.log('formData: ', formData);
     props.handleRequestParams(formData);
@@ -63,7 +63,7 @@ function Form(props)
         <label className="jsonInput">
           <textarea
             name="jsonInput"
-            placeholder={`{ "JSON Body": "goes here" }`}
+            placeholder={ `{ "Valid JSON Body": " goes here" }` }
             onChange={ (e) => setBody(e.target.value) }>
           </textarea>
         </label>
