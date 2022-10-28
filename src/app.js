@@ -21,6 +21,9 @@ import Results from './components/results';
   Stretch Goals:
   - Store the history in local storage as well as in state
   - When the application loads, use an effect to read from local storage and put that history into your state right away
+  
+  Personal Stretch Goals:
+  - implement `optional chaining` in places where a ternary is too verbose
 */
 
 
