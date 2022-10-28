@@ -51,13 +51,15 @@ describe('testing the app component', () =>
     expect(testResults).toHaveTextContent('results:');
   });
 
-  test('loads and displays greeting', async () =>
+  test('loads and displays test results', async () =>
   {
-    render(<App url="/test"/>)
+    render(<App url="/test" />)
 
     let goButton = screen.getByText('GO!');
+    
+    fireEvent.click(goButton);
 
-    let results = await waitFor(() => screen.getByTestId('test-results'));
+    let testResults = await waitFor(() => screen.getByTestId('test-results'));
 
     expect(testResults).toHaveTextContent('fancy feast');
   })

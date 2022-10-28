@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import './app.scss';
 import Header from './components/header';
 import Footer from './components/footer';
@@ -8,18 +8,19 @@ import Results from './components/results';
 
 
 /* TODO
+  X Refactor your state management within the App component to use the useReducer hook.
 
-  O <App /> does a check on the request data from the form and 
-    O updates the request variable in state with the 
-      O url, 
-      O method, and 
-      O potentially the body
+    X Replace any component state managements to use derived state from useReducer with a reducer function and initial state.
 
-  O <App /> has an effect hook 
-    O that’s looking for changes to the request variable in state, and in response, 
-      X runs the API request with the new request options from state
-  
-  O <App /> updates state with the results of the API Request
+    X <App />: Use a reducer to store and manage all application state: loading, results, history
+      X Add to history array in state after every api call
+        X method, 
+        X url, 
+        X results (json)
+
+  Stretch Goals:
+  - Store the history in local storage as well as in state
+  - When the application loads, use an effect to read from local storage and put that history into your state right away
 */
 
 
@@ -32,23 +33,17 @@ const App = () =>
   useEffect(() =>
   {
     console.log('requestParams changed: ', requestParams);
-
     // if requestParams is truthy, callApi with request params
     Boolean(requestParams) && callApi(requestParams.url, requestParams.method, requestParams.body);
-
-    //callApi();
-    // return () =>
-    // {
-    //   console.log('return from requestParams change');
-    // }
   }, [ requestParams ]);
 
   const handleRequestParams = (formData) =>
   {
-    // spread operator to trigger re-render with new object
+    // spread operator to retain previous values
     setRequestParams({ requestParams, ...formData })
   }
 
+  // makes an API call and sets the response to state
   async function callApi(url = '', method = 'GET', body)
   {
     // build request parameters with method 
@@ -76,10 +71,7 @@ const App = () =>
       {
         console.log(error.message);
         setData(error.message);
-      }
-      );
-
-    return response; // parses JSON response into native JavaScript objects
+      }); // parses JSON response into native JavaScript objects
   }
 
   return (

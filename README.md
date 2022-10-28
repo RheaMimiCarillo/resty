@@ -18,13 +18,27 @@ This project currently doesn't require setup.
 
 ## Running the app
 
+- run `npi i` to install dependencies
+
 - run `npm start` to start an instance of the React App
-- hit the 'GO!' button to get mock results
+
+- optionally, supply your API key to a .env file
+
+Application Flow:
+
+- User enters an API URL
+- Chooses a REST Method
+- Clicks the “Go” button
+- Application fetches data from the URL given, with the method specified
+- Application stores the API request and returned data into state
+  - Updates the list of previous API calls
+- Application Displays the response headers and results separately
+  - Both headers and results should be “pretty printed” JSON
 
 ## Tests
 
-No tests, yet.
+We have tests to see if our API gets called with a mock server.
 
 ## UML
 
-![Lab 26 & 27 UML](./images/lab26uml.png "Lab 26 & 27 UML")
+![Lab UML](./images/lab26uml.png "Lab UML")
