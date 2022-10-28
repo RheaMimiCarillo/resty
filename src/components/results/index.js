@@ -1,6 +1,8 @@
 import './results.scss';
+// syntax highlighter, to make json 'prettier'
+import SyntaxHighlighter from 'react-syntax-highlighter';
 //import List from './list/List';
-import { useEffect, useState } from 'react';
+//import { useEffect, useState } from 'react';
 
 /* TODO
 
@@ -8,7 +10,7 @@ import { useEffect, useState } from 'react';
     O renders the JSON
 
     Note: 
-    X update your <Results /> component to use a 3rd party component to “pretty print” the JSON in a color-coded, user-friendly format
+    O update your <Results /> component to use a 3rd party component to “pretty print” the JSON in a color-coded, user-friendly format
 */
 
 function Results(props)
@@ -25,17 +27,23 @@ function Results(props)
   }
   */
 
-
   return (
     <section>
       <h3>Results:</h3>
-      <pre data-testid="test-results">
+      {/* <pre data-testid="test-results">
         { props.data
           ?
           JSON.stringify(props.data, undefined, 2)
           :
           props.displayValue }
-      </pre>
+      </pre> */}
+      <SyntaxHighlighter
+        role="code"
+        language="javascript"
+        data-testid="test-results"
+      >
+        { props.data ? JSON.stringify(props.data, undefined, 2) : props.displayValue }
+      </SyntaxHighlighter>
     </section>
   )
 }

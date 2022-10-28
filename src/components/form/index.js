@@ -23,20 +23,20 @@ function Form(props)
     const formData = {
       method: method,
       url: url,
-      body: body, 
+      body: body,
     };
     console.log('formData: ', formData);
     props.handleRequestParams(formData);
   }
 
-  async function handleMethod(e)
+  function handleMethod(e)
   {
     e.preventDefault();
     // update method in state onClick of button
     // update the input's type onClick
     let selectedMethod = e.target.id.toUpperCase();
     console.log('selected method: ', selectedMethod);
-    await setMethod(selectedMethod);
+    setMethod(selectedMethod);
   }
 
   return (
@@ -63,7 +63,7 @@ function Form(props)
         <label className="jsonInput">
           <textarea
             name="jsonInput"
-            placeholder="JSON data"
+            placeholder={ `{ "Valid JSON Body": " goes here" }` }
             onChange={ (e) => setBody(e.target.value) }>
           </textarea>
         </label>

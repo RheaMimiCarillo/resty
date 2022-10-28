@@ -27,49 +27,76 @@ const App = () =>
 {
   let [ data, setData ] = useState(null);
 
-  let [ requestParams, setRequestParams ] = useState({});
+  let [ requestParams, setRequestParams ] = useState(null);
 
   useEffect(() =>
   {
     console.log('requestParams changed: ', requestParams);
-    return ()=>
-    {
-      console.log('return from requestParams change');
-    }
-  }), [ requestParams ];
+
+    // if requestParams is truthy, callApi with request params
+    Boolean(requestParams) && callApi(requestParams.url, requestParams.method, requestParams.body);
+
+    //callApi();
+    // return () =>
+    // {
+    //   console.log('return from requestParams change');
+    // }
+  }, [ requestParams ]);
 
   const handleRequestParams = (formData) =>
   {
     // spread operator to trigger re-render with new object
     setRequestParams({ requestParams, ...formData })
-    callApi()
   }
 
-  const callApi = () =>
+  async function callApi(url = '', method = 'GET', body)
   {
-    // mock output
-    const data = {
-      count: 2,
-      results: [
-        { name: "fake thing 1", url: "http://fakethings.com/1" },
-        { name: "fake thing 2", url: "http://fakethings.com/2" }
-      ]
-    };
-    // let results = fetch(`${requestParams.url}`)
-    //   .then(response => response.json())
-    //   .then(json => console.log(json))
-    // using the spread operator to maintain any previous state values.
-    setData({ data });
-    console.log('called api with request params: ', requestParams);
-  };
+    // build request parameters with method 
+    let currentParams = {
+      method: method, // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      // body: goes here if there is a body to put here
+    }
+
+    // if the method is POST or PUT append `body` to `currentParams`
+    method === 'POST' || method === 'PUT' ? (currentParams.body = JSON.stringify(body)) : undefined;
+
+    // Default options are marked with *
+    // test API url: https://pokeapi.co/api/v2/pokemon?limit=151
+    const response = await fetch(url, currentParams)
+      .then(response => response.json())
+      .then(json =>
+      {
+        console.log('results of api call ', json);
+        setData(json)
+      })
+      .catch(error =>
+      {
+        console.log(error.message);
+        setData(error.message);
+      }
+      );
+
+    return response; // parses JSON response into native JavaScript objects
+  }
 
   return (
     <React.Fragment>
       <Header />
-
-      <div>Request Method: { requestParams.method }</div>
-      <div>URL: { requestParams.url }</div>
-      <div>Body: { requestParams.body }</div>
+      <h3>Request Parameters:</h3>
+      { requestParams ?
+        <>
+          <div>Request Method: { requestParams.method }</div>
+          <div>URL: { requestParams.url }</div>
+          { requestParams.body ?
+            <div>Body: { requestParams.body }</div> :
+            undefined
+          }
+        </> :
+        undefined
+      }
 
       <Form
         handleRequestParams={ handleRequestParams }

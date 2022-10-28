@@ -1,16 +1,37 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+// import dependencies
+import React from 'react'
+
+// import API mocking utilities from Mock Service Worker
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
+
+// import react-testing methods
+import { render, fireEvent, waitFor, screen } from '@testing-library/react'
+
+// add custom jest matchers from jest-dom
+import '@testing-library/jest-dom'
+
 import App from '../src/app';
 
 /* TODO
 
-  X Assert that upon submitting the form will result in data being rendered in the output area
-    X You will need to “mock” the API request with React Testing Library
+  Assert that upon submitting the form will result in data being rendered in the output area
+    O You will need to “mock” the API request with React Testing Library
   
     Note the example here: https://testing-library.com/docs/react-testing-library/example-intro/
       This shows how to use the msw package to setup a fake server that returns fake data in your tests so that you can run tests without having to call an actual API
 
 */
+
+const server = setupServer(
+  rest.get('/test', (req, res, ctx) =>
+  {
+    return res(ctx.json({ greeting: 'fancy feast' }))
+  }),
+)
+beforeAll(() => server.listen())
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
 
 describe('testing the app component', () =>
 {
@@ -28,4 +49,15 @@ describe('testing the app component', () =>
 
     expect(testResults).toHaveTextContent('results:');
   });
+
+  test('loads and displays greeting', async () =>
+  {
+    render(<App url="/test"/>)
+
+    let goButton = screen.getByText('GO!');
+
+    let results = await waitFor(() => screen.getByTestId('test-results'));
+
+    expect(testResults).toHaveTextContent('fancy feast');
+  })
 })
